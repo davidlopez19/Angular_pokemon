@@ -1,0 +1,62 @@
+<p>Lista de Pokemons</p>
+
+<h4>Informacion desde el detalle es: {{pokemonFromDetail}}</h4>
+
+<div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let itemPokemon of pokemonArray">
+                <th scope="row">{{itemPokemon.id}}</th>
+                <td>{{itemPokemon.name}}</td>
+                <td>{{itemPokemon.typePokemon}}</td>
+                <td>{{itemPokemon.imageUrl}}</td>
+                <td><button type="button" class="btn btn-outline-info" (click)="showPokemon(itemPokemon)">Ver
+                        pokemon</button>
+                    <button type="button" (click)="deletePokemon(itemPokemon)"
+                        class="btn btn-outline-danger">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Eliminar Pokemon</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-delete-pokemon [pokemonForDelete]="pokemonForDelete"
+            (pokemonDeleteIsSuccess)="successDelete()"></app-delete-pokemon>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-info" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #content_detail let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Detalle Pokemon</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-detail-pokemon [pokemonChildren]="pokemonSelected"
+            (pokemonEventEmitter)="selectedPokemonToWatch($event)"></app-detail-pokemon>
+    </div>
+</ng-template>
+
+<div *ngIf="showAlertSuccess" class="alert alert-warning alert-dismissible fade show" role="alert">
+    Se elimino Correctamente el pokemon
+    <button type="button" class="close" data-dismiss="alert" (click)="showAlertSuccess=false" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
